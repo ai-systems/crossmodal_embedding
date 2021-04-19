@@ -1,0 +1,1 @@
+from .training_star_task import TrainingTaskStar
