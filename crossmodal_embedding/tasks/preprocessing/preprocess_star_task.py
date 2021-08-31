@@ -4,22 +4,24 @@ import json
 from tqdm import tqdm
 from crossmodal_embedding.util import tokenizer
 import pandas as pd
-from crossmodal_embedding.util.caching import recover_cache, save_cache
+
 
 
 class PreprocessStarTask(Task):
-    def run(self, train, test, dev, statements, use_cache=False, max_len=100):
+    def run(self, train, test, dev, statements, max_len=100):
 
         padded_statements, padded_masking, vocabulary_size, leng = self.prepare_input(
             statements, max_len
         )
+
+
         dataset = dict()
 
         train_pairs = self.prepare_pairs_with_padding(
             train, padded_statements, padded_masking, leng
         )
 
-        # pd.to_pickle(train_pairs, f"./cache/train_{n}.pickle")
+
 
         test_pairs = self.prepare_pairs_with_padding(
             test, padded_statements, padded_masking, leng
@@ -46,16 +48,16 @@ class PreprocessStarTask(Task):
         for id_p, content in pairs.items():
 
             if (
-                str(content["statement_1"]) in padded_statements
-                and str(content["statement_2"]) in padded_statements
+                str(content["s1"]) in padded_statements
+                and str(content["s2"]) in padded_statements
             ):
                 new_pairs[i] = {
-                    "e1": padded_statements[str(content["statement_1"])],
-                    "e1_mask": padded_masking[str(content["statement_1"])],
-                    "e1_len": leng[str(content["statement_1"])],
-                    "e2": padded_statements[str(content["statement_2"])],
-                    "e2_mask": padded_masking[str(content["statement_2"])],
-                    "e2_len": leng[str(content["statement_2"])],
+                    "e1": padded_statements[str(content["s1"])],
+                    "e1_mask": padded_masking[str(content["s1"])],
+                    "e1_len": leng[str(content["s1"])],
+                    "e2": padded_statements[str(content["s2"])],
+                    "e2_mask": padded_masking[str(content["s2"])],
+                    "e2_len": leng[str(content["s2"])],
                     "score": content["score"],
                 }
                 i = i + 1

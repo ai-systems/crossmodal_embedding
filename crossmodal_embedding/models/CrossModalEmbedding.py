@@ -152,13 +152,9 @@ class CrossModalEmbedding(nn.Module):
         # WORDS
         words_statement = self.norm_w2(attended_words + attended_words_ff)
 
-        # statement = torch.abs(words_statement - expressions_statement)
+ 
         statement = torch.cat([expressions_statement, words_statement], dim=2)
-        # statement = self.maxpool_statement(statement)
-        # statement = self.m(statement)
-        # masking = masking.view(-1, self.max_len, 1)
-        # statement = torch.where(masking == 1, expressions_statement, words_statement)
-        # statement = self.biattention(expressions_statement, words_statement)
+       
         statement_in = torch.nn.utils.rnn.pack_padded_sequence(
             statement, st_len, batch_first=True, enforce_sorted=False
         )
@@ -166,9 +162,6 @@ class CrossModalEmbedding(nn.Module):
         self.bilstm.flatten_parameters()
         output_lstm, (hn, cn) = self.bilstm(statement_in, self.hidden)
 
-        # output_lstm, _ = torch.nn.utils.rnn.pad_packed_sequence(
-        #     output_lstm, batch_first=True, total_length=self.max_len
-        # )
 
         emb = torch.cat([hn[0], hn[1]], dim=1)
 

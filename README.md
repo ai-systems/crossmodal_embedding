@@ -6,7 +6,7 @@ This is the repo for our EACL2021 paper STAR: Cross-modal STAtement Representati
 
 # Dataset
 
-The dataset used in this work can be found here: [similar pairs](https://github.com/debymf/nl-ps/tree/master/dataset/similar_pairs) and [random pairs](https://github.com/debymf/nl-ps/tree/master/dataset/random_pairs).
+The dataset used in this work can be found in the ```dataset''' folder, containg the randomly retrieved pairs and the similar (BM25 retrieved) pairs.
 
 # Running the code
 
@@ -20,10 +20,17 @@ Use the following command to run STAR:
 
 ```
 python -m crossmodal_embedding.flows.train_star_flow --num_negatives=[NUM_NEG] \
-                                                    --train=[TRAIN FILE] \
-                                                    --test=[TEST FILE] \
-                                                    --dev=[DEV FILE] \
-                                                    --encoder=[FILE STATEMENT IDS MAPPING] 
+                                                    --use_similar or --use_random [Only one option allowed]
+                                                    
+```
+
+where num_negatives is the number of negative pairs for each positive one.
+
+For example, to run STAR with 1 negative pair for each positive one and using the randomly retrieved pairs, the following command should be run:
+
+```
+python -m crossmodal_embedding.flows.train_star_flow --num_negatives=1 --use_random
+                                                     
 ```
 
 # Citation

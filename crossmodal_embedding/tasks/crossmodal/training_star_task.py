@@ -118,9 +118,7 @@ class TrainingTaskStar(Task):
 
         # Loss and optimizer
         criterion = nn.NLLLoss()
-        # criterion = nn.BCELoss()
 
-        # criterion = nn.CrossEntropyLoss(weight=torch.FloatTensor([0.5, 0.5]).to(device))
         optimizer = torch.optim.AdamW(
             model.parameters(), lr=learning_rate, weight_decay=decay
         )
@@ -168,7 +166,7 @@ class TrainingTaskStar(Task):
 
                 # print statistics
                 running_loss += loss.item()
-                if i % 10 == 0:  # print every 2000 mini-batches
+                if i % 10 == 0:  
                     t.set_description("loss: {:.4f}".format(running_loss / 10))
                     running_loss = 0
 
