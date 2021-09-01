@@ -64,18 +64,24 @@ att_head = args.att_head
 learning_rate = args.learning_rate
 
 if use_similar:
-    filename = f"./dataset/similar/neg_1_"
+    filename = f"./dataset/similar/neg_{num_negatives}_"
 else:
-    filename = f"./dataset/random/neg_1_"
+    filename = f"./dataset/random/neg_{num_negatives}_"
 
+
+logger.info(f"Loading files starting with: ./dataset/random/neg_{num_negatives}_")
 with open(f"{filename}statements.json", "r") as f:
     statements = json.load(f)
+    logger.info(f"Statements file: {filename}statements.json")
 with open(f"{filename}train.json", "r") as f:
     train = json.load(f)
+    logger.info(f"Train file: {filename}train.json")
 with open(f"{filename}test.json", "r") as f:
     test = json.load(f)
+    logger.info(f"Test file: {filename}test.json")
 with open(f"{filename}dev.json", "r") as f:
     dev = json.load(f)
+    logger.info(f"Dev file: {filename}dev.json")
 
 
 
